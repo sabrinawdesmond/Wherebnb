@@ -1,382 +1,205 @@
 require "faker"
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
-ApplicationRecord.transaction do
-  puts "Destroying tables..."
-  # Unnecessary if using `rails db:seed:replant`
-  User.destroy_all
-  Listing.destroy_all
-  Review.destroy_all
 
-  puts "Resetting primary keys..."
-  # For easy testing, so that after seeding, the first `User` has `id` of 1
-  ApplicationRecord.connection.reset_pk_sequence!("users")
-  ApplicationRecord.connection.reset_pk_sequence!("listings")
+ApplicationRecord.transaction do
+  puts "Destroying old data..."
+  Booking.destroy_all
+  Review.destroy_all
+  Listing.destroy_all
+  User.destroy_all
 
   puts "Creating users..."
-  # Create one user with an easy to remember username, email, and password:
-  User.create!(
+  demo = User.create!(
     username: "Demo-lition",
     email: "demo@user.io",
-    password: "password",
+    password: "password"
   )
 
-   # More users
-  13.times do
-    User.create!({
+  users = [demo]
+  10.times do
+    users << User.create!(
       username: Faker::Internet.unique.username(specifier: 3),
       email: Faker::Internet.unique.email,
-      password: "password",
-    })
+      password: "password"
+    )
   end
-
-  User.create!(
-    username: "tester",
-    email: "tester@user.io",
-    password: "password",
-  )
 
   puts "Creating listings..."
-
-  descriptions = [
-    "This cozy home is perfect for anyone who loves natural light. It has large windows throughout that let in plenty of sunshine. The open-concept living and dining area is perfect for hosting guests, and the spacious kitchen has plenty of storage and counter space. With two bedrooms and a home office, this home is perfect for a small family or someone who works from home.",
-    "This modern home features sleek, minimalist design with high-end finishes and appliances. The open-concept living area is perfect for entertaining guests, and the large windows provide plenty of natural light. With three bedrooms and a spacious backyard, this home is perfect for a family looking for a modern, stylish home in a quiet neighborhood.",
-    "This charming home has a large, fenced-in backyard that's perfect for outdoor entertaining. The open-concept living area features beautiful hardwood floors and a fireplace, creating a warm and inviting atmosphere. With three bedrooms and a spacious kitchen, this home is perfect for a family looking for a cozy, welcoming home in a great location.",
-    "This spacious home has an open-concept layout, making it perfect for hosting gatherings with family and friends. The large windows throughout provide plenty of natural light, and the fireplace in the living room creates a cozy atmosphere. With four bedrooms and a large backyard, this home is perfect for a family looking for plenty of space and comfort.",
-    "This classic home has beautiful hardwood floors throughout and plenty of character. The formal dining room and spacious living area provide plenty of space for hosting guests, and the cozy den is perfect for relaxing with a book. With three bedrooms and a large backyard, this home is perfect for a family looking for a charming, historic home in a great location.",
-    "This newly renovated home features brand-new appliances and finishes, giving it a fresh, modern look. The open-concept living area is perfect for entertaining guests, and the large backyard is perfect for outdoor activities. With three bedrooms and a home office, this home is perfect for a family looking for a modern, stylish home with plenty of space.",
-    "This home is located in a quiet neighborhood and features a large, private backyard with plenty of trees and greenery. The spacious living area features high ceilings and large windows that provide plenty of natural light. With three bedrooms and a modern kitchen, this home is perfect for a family looking for a quiet, peaceful home in a great location.",
-    "This bright and airy home features high ceilings and large windows that make it feel open and spacious. The formal dining room and cozy den provide plenty of space for hosting guests, and the spacious backyard is perfect for outdoor activities. With four bedrooms and a modern kitchen, this home is perfect for a family looking for a bright, spacious home with plenty of character.",
-    "This cozy cottage-style home has plenty of character, with unique architectural details and a warm, inviting feel. The formal dining room and cozy living area provide plenty of space for hosting guests, and the large backyard is perfect for outdoor activities. With two bedrooms and a home office, this home is perfect for a small family or someone who works from home.",
-    "This modern townhouse features a sleek, contemporary design with high-end finishes and plenty of natural light. The open-concept living area is perfect for entertaining guests, and the spacious backyard is perfect for outdoor activities. With three bedrooms and a home office, this home is perfect for a family looking for a stylish, modern home in a great location.",
-    "This stunning home is a perfect blend of modern architecture and breathtaking city views. The floor-to-ceiling windows offer an unobstructed panoramic view of the city skyline from every room. The spacious balcony is an excellent spot to unwind after a long day and take in the stunning views. The interior design of the home is equally impressive, with contemporary furniture and decor that complements the stunning views. This home is a perfect fit for those who value luxury and style.",
-    "This charming farmhouse-style home offers the perfect blend of comfort and country living. The large front porch is an ideal spot to enjoy the fresh air, while the sprawling backyard offers ample space for outdoor activities. The home features a cozy living room with a wood-burning fireplace and wood paneling that adds to the rustic, cabin-like feel of the space. The kitchen is spacious and well-equipped, making it perfect for hosting family and friends.",
-    "This cozy cottage-style home is perfect for those who love the feel of a mountain cabin. The wood paneling and wood-burning fireplace create a cozy and inviting atmosphere. The interior design is tasteful and simple, with comfortable furniture and rustic decor. The home has everything you need for a comfortable stay, including a well-equipped kitchen, a comfortable bedroom, and a cozy living area.",
-    "This elegant home is a perfect blend of luxury and style. The private pool is a great spot to relax and cool off, while the gourmet kitchen is perfect for preparing delicious meals. The spacious master suite is the ultimate retreat, with a comfortable bed and a luxurious bathroom. The interior design of the home is impeccable, with high-end finishes and stylish decor throughout.",
-    "This modern apartment offers a sleek, industrial design that is perfect for those who love contemporary style. The exposed ductwork and high ceilings add to the industrial feel of the space. The apartment is well-equipped, with all the modern amenities you need for a comfortable stay. The location is perfect for those who want to be in the heart of the city, with easy access to shopping, dining, and entertainment.",
-    "This spacious ranch-style home is perfect for those who love to entertain. The large outdoor patio is an ideal spot for hosting barbecues and outdoor gatherings. The fully equipped bar is perfect for serving up your favorite drinks. The interior of the home is equally impressive, with comfortable furniture and tasteful decor throughout. The bedrooms are spacious and comfortable, making it the perfect place to relax after a long day.",
-    "This cozy bungalow is a perfect spot for those who want to escape the hustle and bustle of the city. The quiet, tree-lined neighborhood is perfect for those who value peace and tranquility. The beautifully landscaped front yard is a great spot to enjoy a morning cup of coffee or an evening glass of wine. The interior of the home is tastefully decorated, with comfortable furniture and rustic accents throughout.",
-    "This classic colonial-style home is perfect for those who love traditional architecture. The grand staircase and elegant moldings are a nod to the home's historic roots. The home is spacious and well-appointed, with plenty of room for a growing family. The backyard is large and perfect for outdoor activities, while the interior of the home is tastefully decorated and comfortable.",
-    "This luxurious penthouse is the ultimate in style and sophistication. The stunning panoramic views of the city are breathtaking, and the high-end finishes and appliances are second to none. The penthouse is spacious and well-appointed, with all the modern amenities you need for a comfortable stay. The location is perfect for those who want to be in the heart of the city, with easy access to shopping, dining, and entertainment. The penthouse is truly a one-of-a-kind experience.",
+  listings_data = [
+    {
+      title: "Beachfront Cottage with Ocean Views",
+      description: "Wake up to the sound of waves in this charming beachfront cottage. Featuring a private deck overlooking the Pacific, a fully equipped kitchen, and cozy interiors. Perfect for couples or families looking for a coastal getaway. The cottage sleeps up to four guests and includes beach towels, chairs, and an outdoor shower.",
+      address: "123 Ocean Drive",
+      city: "Santa Monica",
+      country: "USA",
+      latitude: 34.0195,
+      longitude: -118.4912,
+      price: 285,
+      num_beds: 2,
+      num_rooms: 3,
+      num_bathrooms: 1,
+      photo_url: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800"
+    },
+    {
+      title: "Modern Manhattan Loft in SoHo",
+      description: "Sleek and sophisticated loft in the heart of SoHo. Floor-to-ceiling windows, exposed brick walls, and designer furnishings create a true New York experience. Walking distance to world-class restaurants, art galleries, and boutique shopping. The building has a 24-hour doorman and rooftop terrace.",
+      address: "456 Spring Street",
+      city: "New York",
+      country: "USA",
+      latitude: 40.7241,
+      longitude: -74.0027,
+      price: 420,
+      num_beds: 1,
+      num_rooms: 2,
+      num_bathrooms: 1,
+      photo_url: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800"
+    },
+    {
+      title: "Cozy Mountain Cabin Near Ski Slopes",
+      description: "Escape to this rustic-chic cabin nestled in the Rocky Mountains. A stone fireplace, outdoor hot tub, and stunning mountain panoramas await you. The cabin is steps from world-class ski trails in winter and gorgeous hiking paths in summer. Fully stocked kitchen, ski storage, and gear drying room included.",
+      address: "789 Pine Ridge Road",
+      city: "Aspen",
+      country: "USA",
+      latitude: 39.1911,
+      longitude: -106.8175,
+      price: 350,
+      num_beds: 3,
+      num_rooms: 4,
+      num_bathrooms: 2,
+      photo_url: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800"
+    },
+    {
+      title: "Tropical Waterfront Villa with Pool",
+      description: "Luxurious villa with a private infinity pool overlooking Biscayne Bay. This sun-drenched retreat features open-plan living, a gourmet kitchen, and lush tropical gardens. Minutes from South Beach nightlife, excellent dining, and the Art Deco Historic District. Complimentary paddleboards and kayaks for guests.",
+      address: "321 Bay View Drive",
+      city: "Miami",
+      country: "USA",
+      latitude: 25.7617,
+      longitude: -80.1918,
+      price: 550,
+      num_beds: 4,
+      num_rooms: 5,
+      num_bathrooms: 3,
+      photo_url: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800"
+    },
+    {
+      title: "Charming Back Bay Brownstone",
+      description: "Step back in time in this meticulously restored Victorian brownstone in Boston's prestigious Back Bay neighborhood. Original crown moldings, parquet floors, and soaring ceilings blend seamlessly with modern amenities. Stroll to the Public Garden, Newbury Street boutiques, and acclaimed restaurants from the front door.",
+      address: "88 Commonwealth Avenue",
+      city: "Boston",
+      country: "USA",
+      latitude: 42.3496,
+      longitude: -71.0820,
+      price: 210,
+      num_beds: 2,
+      num_rooms: 3,
+      num_bathrooms: 1,
+      photo_url: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+    },
+    {
+      title: "Desert Modern Home with Mountain Views",
+      description: "Architect-designed desert retreat featuring floor-to-ceiling glass walls framing the Sonoran Desert and McDowell Mountains. A heated private pool, outdoor kitchen, and fire pit make evenings magical. Interiors combine warm organic textures with minimalist desert-inspired design.",
+      address: "555 Camelback Road",
+      city: "Scottsdale",
+      country: "USA",
+      latitude: 33.4942,
+      longitude: -111.9261,
+      price: 390,
+      num_beds: 3,
+      num_rooms: 4,
+      num_bathrooms: 2,
+      photo_url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800"
+    },
+    {
+      title: "Treehouse Hideaway in Old Growth Forest",
+      description: "Live your childhood dream in this breathtaking treehouse perched 30 feet up in a Douglas fir canopy. Handcrafted woodwork, a spiral staircase, a covered deck, and stargazing skylights offer a truly immersive forest experience. Close enough to Portland for day trips, secluded enough to feel worlds away.",
+      address: "12 Forest Lane",
+      city: "Portland",
+      country: "USA",
+      latitude: 45.5051,
+      longitude: -122.6750,
+      price: 180,
+      num_beds: 1,
+      num_rooms: 1,
+      num_bathrooms: 1,
+      photo_url: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800"
+    },
+    {
+      title: "Rustic Southern Farmhouse on 5 Acres",
+      description: "Authentic 1890s farmhouse lovingly restored with all modern conveniences. Wraparound porch for morning coffee, clawfoot soaking tubs, a wood-burning stove, and five acres of rolling Tennessee pasture to explore. The farmhouse is a short drive from downtown Nashville's honky-tonks and live music scene.",
+      address: "4400 Old Hickory Boulevard",
+      city: "Nashville",
+      country: "USA",
+      latitude: 36.1627,
+      longitude: -86.7816,
+      price: 225,
+      num_beds: 4,
+      num_rooms: 6,
+      num_bathrooms: 2,
+      photo_url: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800"
+    },
+    {
+      title: "Lakefront A-Frame with Private Dock",
+      description: "Iconic A-frame cabin on the pristine shores of Lake Tahoe with your own private dock, kayaks, and paddleboards. Soaring cathedral ceilings, a wood-burning fireplace, and panoramic lake views from every room. Ski resorts are minutes away in winter; hiking and water sports fill the summer days.",
+      address: "900 Lakeshore Boulevard",
+      city: "South Lake Tahoe",
+      country: "USA",
+      latitude: 38.9399,
+      longitude: -119.9772,
+      price: 315,
+      num_beds: 3,
+      num_rooms: 4,
+      num_bathrooms: 2,
+      photo_url: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800"
+    },
+    {
+      title: "River View Studio in the Loop",
+      description: "Chic high-rise studio with sweeping views of the Chicago River and downtown skyline. Freshly renovated with luxury finishes, a chef's kitchen, and blackout curtains for deep sleeps. Building amenities include a rooftop pool, fitness center, and 24-hour concierge. Steps from the Riverwalk and Millennium Park.",
+      address: "225 N. Michigan Avenue",
+      city: "Chicago",
+      country: "USA",
+      latitude: 41.8858,
+      longitude: -87.6245,
+      price: 155,
+      num_beds: 1,
+      num_rooms: 1,
+      num_bathrooms: 1,
+      photo_url: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800"
+    }
   ]
 
-  titles = [
-    "Sunny and Spacious Home",
-    "Modern Luxury Home",
-    "Charming Home with Large Backyard",
-    "Open-Concept Family Home",
-    "Classic Home with Beautiful Hardwood Floors",
-    "Newly Renovated Modern Home",
-    "Quiet and Private Home with Large Backyard",
-    "Bright and Airy Home with High Ceilings",
-    "Cozy Cottage-Style Home",
-    "Sleek and Contemporary Townhouse",
-    "Pet-Friendly Home with Fenced-in Backyard",
-    "Charming Apartment with Unique Features",
-    "Modern Loft-Style Home with Natural Light",
-    "Cozy Bungalow with Character",
-    "Brand-New Construction Home",
-    "Spacious Family Home with Multiple Bedrooms",
-    "Beautifully Restored Historic Home",
-    "Bright and Open-Concept Home",
-    "Rustic Cabin-Style Home in Nature",
-    "High-End Home for Entertaining",
-  ]
-
-  Listing.create!(
-    title: "Beautiful Home",
-    description: "This charming 3 bedroom 2 bath abode in Austin is the perfect place to call home during your stay. The house features a spacious living room with plenty of seating for guests, as well as a fully equipped kitchen with all the necessary appliances and utensils. Each of the three bedrooms is tastefully decorated and features comfortable beds with soft linens, making for a peaceful night's sleep. The two bathrooms are well-appointed and stocked with plenty of towels and toiletries. The house also includes a backyard with outdoor seating, perfect for enjoying the sunny Austin weather.",
-    address: "123 Main Street",
-    city: "Austin",
-    country: "USA",
-    longitude: 0,
-    latitude: 0,
-    price: 300,
-    num_beds: 3,
-    num_rooms: 3,
-    num_bathrooms: 2,
-    host_id: 2,
-  )
-
-  #More listings
-  19.times do |i|
-    num_beds = rand(3...8)
-    num_rooms = rand(num_beds+1..9)
-    num_bathrooms = rand(1..num_rooms)
-    Listing.create!({
-      title: titles[i],
-      description: descriptions[i],
-      address: Faker::Address.street_address,
-      city: Faker::Address.city,
-      country: Faker::Address.country,
-      longitude: Faker::Address.longitude,
-      latitude: Faker::Address.latitude,
-      price: Faker::Number.between(from: 200, to: 1000),
-      num_beds: num_beds,
-      num_rooms: num_rooms,
-      num_bathrooms: num_bathrooms,
-      host_id: Faker::Number.between(from: 2, to: 4),
-    })
+  listings = listings_data.map.with_index do |data, i|
+    Listing.create!(data.merge(host_id: users[i % users.length].id))
   end
-  Faker::UniqueGenerator.clear
 
-  puts "creating reviews"
+  puts "Creating reviews..."
+  review_bodies = [
+    "Absolutely loved this place! The host was incredibly responsive and the property was exactly as described. Would definitely come back.",
+    "Perfect getaway. The space was immaculate, beautifully decorated, and had everything we needed. The location was unbeatable.",
+    "Such a wonderful stay. The views were even better in person than in the photos. We didn't want to leave!",
+    "Great value for the price. Clean, comfortable, and perfectly located. The host went above and beyond to make us feel welcome.",
+    "We had an amazing time. The space had such a unique character and the amenities were top notch. Highly recommend!",
+    "One of the best Airbnb stays we've had. The property was spotless and the check-in process was seamless.",
+    "Stunning property in a perfect location. Every detail was thoughtfully considered. Already planning our return trip.",
+    "A truly special place to stay. Felt like a home away from home. The host's local tips were invaluable."
+  ]
 
-  Review.create!(
-    reviewer_id: 13,
-    listing_id: 1,
-    body: "My stay at this home was absolutely amazing. The house was beautiful and had everything we needed for a comfortable stay.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  
-  Review.create!(
-    reviewer_id: 13,
-    listing_id: 2,
-    body:"We had a wonderful time at this Wherebnb. The house was clean, spacious, and had great amenities.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  
-  Review.create!(
-    reviewer_id: 1,
-    listing_id: 2,
-    body: "Our stay at this Wherebnb was fantastic. The location was perfect and the house was very comfortable and well-appointed.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )  
-  
-  Review.create!(
-    reviewer_id: 1,
-    listing_id: 1,
-    body:  "This Wherebnb was perfect for our family vacation. The house had plenty of space and the kids loved the pool!",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )  
-  
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:  "We really enjoyed our stay at this Wherebnb. The house was cozy and had everything we needed for a great vacation.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
+  listings.each do |listing|
+    rand(3..5).times do
+      reviewer = users.reject { |u| u.id == listing.host_id }.sample
+      Review.create!(
+        reviewer_id: reviewer.id,
+        listing_id: listing.id,
+        body: review_bodies.sample,
+        overall: rand(4..5),
+        cleanliness: rand(4..5),
+        accuracy: rand(4..5),
+        communication: rand(4..5),
+        location: rand(4..5),
+        check_in: rand(4..5),
+        value: rand(3..5)
+      )
+    end
+  end
 
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:   "This Wherebnb exceeded our expectations. The house was spacious and well-maintained, and the backyard was a great place to relax.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:  "We had a great time at this Wherebnb. The house was clean and comfortable, and the neighborhood was quiet and peaceful.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:   "My family and I loved our stay at this Wherebnb. The house was beautiful and had all the amenities we needed.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:   "This Wherebnb was the perfect getaway for our family. The house was clean, comfortable, and had a great location.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:   "Our stay at this Wherebnb was wonderful. The house had everything we needed and the backyard was a great place to relax.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:   "We had a great time at this Wherebnb. The house was spacious and comfortable, and the location was perfect for exploring the area.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:   "This Wherebnb was perfect for our family vacation. The house had plenty of space and the pool was a great place to cool off.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:   "We really enjoyed our stay at this Wherebnb. The house was cozy and had everything we needed for a great vacation.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:   "This Wherebnb exceeded our expectations. The house was spacious and well-maintained, and the location was perfect for our needs.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:  "We had a great time at this Wherebnb. The house was clean and comfortable, and the neighborhood was peaceful and quiet.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:   "My family and I had a wonderful stay at this Wherebnb. The house was beautiful and had all the amenities we needed for a great vacation.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:     "This Wherebnb was the perfect place for a relaxing getaway. The house was clean, comfortable, and had a great location.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:   "Our stay at this Wherebnb was fantastic. The house had everything we needed and the pool was a great place to hang out.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:  "We had a great time at this Wherebnb. The house was spacious and comfortable, and the location was perfect for our needs.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  
-  Review.create!(
-    reviewer_id: rand(1..12),
-    listing_id: rand(1..10),
-    body:   "This Wherebnb was perfect for our family vacation. The house had plenty of space and the backyard was a great place to relax and play.",
-    overall: rand(3..5),
-    cleanliness: rand(3..5),
-    accuracy: rand(3..5),
-    communication: rand(3..5),
-    location: rand(2..5),
-    check_in: rand(2..5),
-    value: rand(3..5)
-  )
-  
-  puts "Done!"
+  puts "Done! Created #{User.count} users, #{Listing.count} listings, #{Review.count} reviews."
 end

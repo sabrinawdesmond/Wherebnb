@@ -1,16 +1,17 @@
 import "./ListingIndex.css";
 import { Link, useHistory } from "react-router-dom";
-import airbnb from "./airbnb.png"
+import placeholderImg from "./airbnb.png";
 
 const ListingIndexItem = ({ listing }) => {
   const history = useHistory();
+  const photo = listing.photo_url || placeholderImg;
 
   return (
     <div className="listing-item">
       <div onClick={() => history.push(`/listings/${listing.id}`)}>
         <Link to={`/listings/${listing.id}`}>
         <div className="photo-container">
-            <img src={airbnb} alt="photo" />
+            <img src={photo} alt="photo" />
             </div>
           <h4>{<span>{listing.city}, {listing.country}</span>}</h4>
           <div className="distance-dates">

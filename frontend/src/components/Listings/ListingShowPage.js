@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchListing, getListing } from "../../store/listings";
-import { fetchReviews, getReviews } from "../../store/reviews";
+import { fetchReviews, getListingReviews } from "../../store/reviews";
 import { useEffect } from "react";
 import placeholderImg from "./airbnb.png";
 import "./ListingShowPage.css";
@@ -14,7 +14,7 @@ const ListingShowPage = () => {
   const dispatch = useDispatch();
   const { listingId } = useParams();
   const listing = useSelector(getListing(listingId));
-  const reviews = useSelector(getReviews);
+  const reviews = useSelector(getListingReviews(listingId));
 
   useEffect(() => {
     dispatch(fetchListing(listingId));

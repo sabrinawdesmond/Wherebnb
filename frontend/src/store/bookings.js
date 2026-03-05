@@ -29,6 +29,12 @@ export const fetchBookings = (listingId) => async dispatch => {
   dispatch(receiveBookings(data));
 };
 
+export const fetchUserBookings = () => async dispatch => {
+  const response = await csrfFetch('/api/bookings');
+  const data = await response.json();
+  dispatch(receiveBookings(data));
+};
+
 export const createBooking = (listingId, booking) => async dispatch => {
   const response = await csrfFetch(`/api/listings/${listingId}/bookings`, {
     method: "POST",
@@ -46,6 +52,7 @@ export const updateBooking = (booking) => async dispatch => {
     body: JSON.stringify(booking),
     headers: { "Content-Type": "application/json" }
   });
+  if (!response.ok) throw response;
   const data = await response.json();
   dispatch(receiveBooking(data));
 };

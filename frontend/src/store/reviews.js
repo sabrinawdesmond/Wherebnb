@@ -28,6 +28,12 @@ export const getReview = (reviewId) => state => {
   return state?.reviews ? state.reviews[reviewId] : null;
 };
 
+export const getListingReviews = (listingId) => state => {
+  return state?.reviews
+    ? Object.values(state.reviews).filter(r => String(r.listing_id) === String(listingId))
+    : [];
+};
+
 // Thunks — reviews are nested under listings
 export const fetchReviews = (listingId) => async dispatch => {
   const response = await csrfFetch(`/api/listings/${listingId}/reviews`);

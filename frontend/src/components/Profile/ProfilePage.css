@@ -1,0 +1,301 @@
+.profile-page {
+  padding: 48px 170px;
+  font-family: "Figtree", sans-serif;
+  min-height: 60vh;
+}
+
+.profile-heading {
+  font-size: 32px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 32px;
+}
+
+.profile-loading {
+  color: #717171;
+  font-size: 16px;
+}
+
+/* Empty state */
+.profile-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  color: #717171;
+  font-size: 18px;
+}
+
+.profile-explore-btn {
+  padding: 14px 24px;
+  border-radius: 8px;
+  border: none;
+  background-image: linear-gradient(
+    to left,
+    #e61e4d 27.5%,
+    #e31c5f 40%,
+    #d70466 57.5%,
+    #bd1e59 75%,
+    #bd1e59 100%
+  );
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Figtree", sans-serif;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.profile-explore-btn:hover {
+  opacity: 0.9;
+}
+
+/* Booking cards */
+.profile-bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.profile-booking-card {
+  display: flex;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.profile-booking-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.profile-booking-photo {
+  width: 240px;
+  height: 200px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.profile-booking-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 24px;
+  flex: 1;
+}
+
+.profile-booking-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.profile-booking-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.profile-booking-location {
+  font-size: 15px;
+  color: #717171;
+}
+
+/* Status badges */
+.booking-status-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.status-upcoming {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-active {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.status-past {
+  background: #f5f5f5;
+  color: #757575;
+}
+
+/* Dates */
+.profile-booking-dates {
+  font-size: 15px;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.profile-date-arrow {
+  color: #717171;
+}
+
+.profile-booking-nights {
+  color: #717171;
+}
+
+.profile-booking-guests {
+  font-size: 14px;
+  color: #717171;
+  margin-top: 4px;
+}
+
+/* Footer */
+.profile-booking-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 16px;
+}
+
+.profile-booking-total {
+  font-size: 16px;
+  color: #222;
+}
+
+.profile-booking-rate {
+  font-size: 13px;
+  color: #717171;
+  font-weight: 400;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.profile-edit-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid #222;
+  background: #fff;
+  color: #222;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Figtree", sans-serif;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.profile-edit-btn:hover {
+  background: #222;
+  color: #fff;
+}
+
+.profile-cancel-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid #FF385C;
+  background: #fff;
+  color: #FF385C;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Figtree", sans-serif;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.profile-cancel-btn:hover {
+  background: #FF385C;
+  color: #fff;
+}
+
+/* Inline edit form */
+.booking-edit-form {
+  margin-bottom: 8px;
+}
+
+.edit-errors {
+  color: #c13515;
+  font-size: 13px;
+  margin-bottom: 10px;
+  padding-left: 16px;
+}
+
+.edit-date-fields {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.edit-date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edit-date-field label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #222;
+}
+
+.edit-date-field input {
+  border: 1px solid #B0B0B0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: "Figtree", sans-serif;
+  outline: none;
+}
+
+.edit-date-field input:focus {
+  border-color: #222;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-save-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background-image: linear-gradient(
+    to left,
+    #e61e4d 27.5%,
+    #e31c5f 40%,
+    #d70466 57.5%,
+    #bd1e59 75%,
+    #bd1e59 100%
+  );
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Figtree", sans-serif;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.edit-save-btn:hover {
+  opacity: 0.9;
+}
+
+.edit-cancel-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid #B0B0B0;
+  background: #fff;
+  color: #717171;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Figtree", sans-serif;
+  cursor: pointer;
+}
+
+.edit-cancel-btn:hover {
+  border-color: #222;
+  color: #222;
+}

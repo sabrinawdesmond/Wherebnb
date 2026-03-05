@@ -3,28 +3,22 @@ class Api::ReviewsController < ApplicationController
 
   def index
     @reviews = Review.where(listing_id: params[:listing_id]).includes(:reviewer)
-
-    @users = []
-    
-    @reviews.each do |review|
-      @users << review.reviewer
-    end
     render :index
   end
 
   def show
-    # @listing = Listing.find(params[:listing_id])
-
-    # puts "Listing: #{@listing}"
-
-    @review = Review.find(params[:id])
-    render :show
+    @review = Review.find_by(id: params[:id])
+    if @review
+      render :show
+    else
+      render json: { errors: ["Review not found"] }, status: :not_found
+    end
   end
 
   def create
-    # debugger 
     @review = Review.new(review_params)
-
+    @review.reviewer_id = current_user.id
+    @review.listing_id = params[:listing_id]
     if @review.save
       render :show
     else
@@ -33,33 +27,31 @@ class Api::ReviewsController < ApplicationController
   end
 
   def update
-    # debugger
-    @review = Review.find(params[:id])
-
-    if current_user.id == @review.reviewer_id
+    @review = Review.find_by(id: params[:id])
+    if @review.reviewer_id == current_user.id
       if @review.update(review_params)
         render :show
       else
         render json: { errors: @review.errors.full_messages }, status: :unprocessable_entity
       end
     else
-      render json: { errors: ["You must be the author of the review to edit"] }
+      render json: { errors: ["You must be the author to edit this review"] }, status: :unauthorized
     end
   end
 
   def destroy
     @review = Review.find_by(id: params[:id])
-    if current_user.id == @review.reviewer_id
-      @review.delete
-      render json: { message: ["Review Deleted"] }
+    if @review.reviewer_id == current_user.id
+      @review.destroy
+      render json: { message: "Review deleted" }
     else
-      render json: { errors: ["You must be the author of the review to delete"] }
+      render json: { errors: ["You must be the author to delete this review"] }, status: :unauthorized
     end
   end
 
   private
 
   def review_params
-    params.require(:review).permit(:reviewer_id, :listing_id, :body, :overall, :cleanliness, :accuracy, :communication, :location, :check_in, :value)
+    params.require(:review).permit(:body, :overall, :cleanliness, :accuracy, :communication, :location, :check_in, :value)
   end
 end
