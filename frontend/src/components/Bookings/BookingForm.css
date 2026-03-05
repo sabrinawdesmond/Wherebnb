@@ -1,0 +1,159 @@
+.booking-card {
+  border: 1px solid #B0B0B0;
+  border-radius: 12px;
+  padding: 24px;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  font-family: "Figtree", sans-serif;
+}
+
+.booking-price {
+  margin-bottom: 16px;
+}
+
+.price-amount {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.price-unit {
+  font-size: 16px;
+  font-weight: 400;
+  color: #717171;
+}
+
+.booking-errors {
+  color: #c13515;
+  font-size: 13px;
+  margin-bottom: 12px;
+  padding-left: 16px;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.date-fields {
+  display: flex;
+  border: 1px solid #B0B0B0;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+}
+
+.date-field {
+  flex: 1;
+  padding: 10px 12px;
+  border-right: 1px solid #B0B0B0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.date-field:last-child {
+  border-right: none;
+}
+
+.date-field label,
+.guests-field label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #222;
+}
+
+.date-field input,
+.guests-field input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-family: "Figtree", sans-serif;
+  width: 100%;
+  background: transparent;
+}
+
+.guests-field {
+  padding: 10px 12px;
+  border: 1px solid #B0B0B0;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 16px;
+}
+
+.guests-field input {
+  font-size: 14px;
+}
+
+.reserve-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background-image: linear-gradient(
+    to left,
+    #e61e4d 27.5%,
+    #e31c5f 40%,
+    #d70466 57.5%,
+    #bd1e59 75%,
+    #bd1e59 100%
+  );
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Figtree", sans-serif;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.reserve-btn:hover {
+  opacity: 0.9;
+}
+
+.login-prompt {
+  text-align: center;
+  color: #717171;
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+.booking-summary {
+  margin-top: 20px;
+  border-top: 1px solid #B0B0B0;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.summary-line,
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-total {
+  border-top: 1px solid #B0B0B0;
+  padding-top: 16px;
+  font-size: 16px;
+}
+
+.booking-confirmed {
+  text-align: center;
+}
+
+.booking-confirmed h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #008a05;
+}
+
+.booking-confirmed p {
+  color: #717171;
+  margin-bottom: 8px;
+}

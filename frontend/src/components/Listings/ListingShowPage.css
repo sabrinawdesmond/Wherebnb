@@ -62,24 +62,37 @@
 }
 
 .listing-description {
-  padding-left: 170px;
-  padding-right: 170px;
   padding-bottom: 20px;
   padding-top: 20px;
   font-size: 18px;
   line-height: 1.25em;
 }
 
+.show-content-layout {
+  display: flex;
+  align-items: flex-start;
+  padding: 0 170px;
+  gap: 80px;
+}
+
+.show-main-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.show-booking-sidebar {
+  width: 380px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 24px;
+}
+
 .host-room-info {
-  padding-left: 170px;
-  padding-right: 170px;
   padding-bottom: 20px;
   padding-top: 20px;
 }
 
 .room-info h3 {
-  padding-left: 170px;
-  padding-right: 170px;
   padding-bottom: 20px;
   font-size: 16px;
   font-weight: 400;
@@ -88,11 +101,9 @@
 .stats {
   box-sizing: border-box;
   padding-top: 10px;
-  margin-right: 170px;
   padding-bottom: 10px;
   border-top: 1px solid #b0b0b0;
   border-bottom: 1px solid #b0b0b0;
-  margin-left: 170px;
   box-shadow: none;
 }
 
@@ -134,4 +145,20 @@
 }
 .leave-review {
   padding-bottom: 40px;
+}
+.show-map-section {
+  padding: 40px 170px;
+  border-top: 1px solid #B0B0B0;
+}
+
+.show-map-section h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.show-map-container {
+  height: 480px;
+  border-radius: 12px;
+  overflow: hidden;
 }

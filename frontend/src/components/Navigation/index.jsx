@@ -28,7 +28,13 @@ function Navigation() {
             </div>
           </div>
         </Link>
-        <h3></h3>
+        <div className="search-bar">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search destinations"
+          />
+        </div>
         <div className="navLinks">
           {/* <div className="profileDrop">
             <a href="/">

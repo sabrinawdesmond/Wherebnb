@@ -1,10 +1,8 @@
-import { useDispatch } from "react-redux";
 import "./ListingIndex.css";
 import { Link, useHistory } from "react-router-dom";
 import airbnb from "./airbnb.png"
 
 const ListingIndexItem = ({ listing }) => {
-  const dispatch = useDispatch();
   const history = useHistory();
 
   return (

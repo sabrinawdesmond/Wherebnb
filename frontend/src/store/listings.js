@@ -69,10 +69,10 @@ export const updateListing = (listing) => async dispatch => {
 }
 
 export const deleteListing = (listingId) => async dispatch => {
-  const response = await csrfFetch (`/api/listings/${listingId}`, {
+  await csrfFetch(`/api/listings/${listingId}`, {
     method: "DELETE",
-  })
-  dispatch(removeListing(listingId))
+  });
+  dispatch(removeListing(listingId));
 };
 
 // listings reducer

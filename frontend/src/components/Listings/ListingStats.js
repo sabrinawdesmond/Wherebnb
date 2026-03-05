@@ -1,8 +1,4 @@
-import { useParams } from "react-router-dom";
-
 function ListingStats() {
-  const { hostId } = useParams();
-
 
   return (
       <div className="stats">
