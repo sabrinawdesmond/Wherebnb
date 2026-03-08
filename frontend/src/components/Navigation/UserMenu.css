@@ -16,5 +16,64 @@ button:hover {
 
 .profile-dropdown {
   position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
   font-size: 15px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  min-width: 200px;
+  padding: 8px 0;
+  list-style: none;
+  z-index: 100;
+}
+
+.profile-dropdown li {
+  padding: 10px 20px;
+}
+
+.dropdown-username {
+  font-weight: 600;
+  color: #222;
+}
+
+.dropdown-email {
+  color: #717171;
+  font-size: 13px;
+  padding-top: 0 !important;
+}
+
+.dropdown-divider {
+  border-top: 1px solid #e0e0e0;
+  padding: 0 !important;
+  margin: 4px 0;
+}
+
+.dropdown-link {
+  color: #222;
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+}
+
+.dropdown-link:hover {
+  color: #FF385C;
+}
+
+.profile-dropdown button {
+  background: none;
+  border: none;
+  font-family: "Figtree", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: none;
+}
+
+.profile-dropdown button:hover {
+  color: #FF385C;
+  box-shadow: none;
 }

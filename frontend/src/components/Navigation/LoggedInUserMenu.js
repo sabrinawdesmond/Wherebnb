@@ -3,6 +3,7 @@ import menuIcon from "./menuIcon.png";
 import profileIcon from "./profileIcon.png";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import * as sessionActions from '../../store/session'
 
 
@@ -40,9 +41,12 @@ function LoggedInUserMenu({ user }) {
       </button>
       {showMenu && (
         <ul className="profile-dropdown">
-          <li>Profile</li>
-          <li>{user.username}</li>
-          <li>{user.email}</li>
+          <li className="dropdown-username">{user.username}</li>
+          <li className="dropdown-email">{user.email}</li>
+          <li className="dropdown-divider" />
+          <li>
+            <Link to="/profile" className="dropdown-link">My Trips</Link>
+          </li>
           <li>
             <button onClick={logout}>Log Out</button>
           </li>

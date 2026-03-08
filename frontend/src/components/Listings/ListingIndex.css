@@ -58,3 +58,21 @@
 .distance-dates {
   color: #717171;
 }
+.listing-index-layout {
+  display: flex;
+  height: calc(100vh - 100px);
+}
+
+.listingsIndex {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px 20px 40px 60px;
+}
+
+.index-map {
+  width: 40%;
+  position: sticky;
+  top: 0;
+  height: calc(100vh - 100px);
+  padding: 20px;
+}
